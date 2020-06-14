@@ -1,0 +1,19 @@
+{
+    "name": "auto-downloader",
+    "version": "1.0.0",
+    "description": "An automatic background downloader using an file as input",
+    "main": "index.js",
+    "repository": "https://github.com/Giancarl021/Auto-Downloader.git",
+    "author": "Giancarlo Fontela da Luz <gian.f.luz@hotmail.com>",
+    "license": "MIT",
+    "private": false,
+    "scripts": {
+        "start": "node index.js"
+    },
+    "dependencies": {
+        "chokidar": "^3.4.0",
+        "dotenv": "^8.2.0",
+        "request": "^2.88.2",
+        "request-progress": "^3.0.0"
+    }
+}
