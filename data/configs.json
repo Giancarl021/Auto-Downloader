@@ -6,5 +6,6 @@
         "queue": "queue.list"
     },
     "output": "downloads",
-    "parallelDonwloads": 3
+    "parallelDonwloads": 3,
+    "postDownload": null
 }

@@ -2,10 +2,14 @@ const createFileWatcher = require('../util/watcher');
 const createFileHandler = require('../util/file');
 const createDownloader = require('./donwload');
 const createProgressHandler = require('../util/progress');
+const {
+    exec
+} = require('child_process');
 
 const {
     path,
-    parallelDonwloads
+    parallelDonwloads,
+    postDownload
 } = require('../../data/configs.json');
 
 module.exports = function () {
@@ -50,11 +54,21 @@ module.exports = function () {
         }
     }
 
-    function completeDownload(url) {
+    function completeDownload(url, filename) {
         const links = getLinks();
         const index = links.findIndex(item => item.url === url);
         links.splice(index, 1);
         list.save(links.map(item => item.url + ' > ' + item.filename).join('\n'));
+
+        if (postDownload) {
+            const file = createFileHandler(filename);
+            const command = postDownload
+                .replace('%filename%', filename)
+                .replace('%filepath%', file.path)
+                .replace('%filedir%', file.path.split('/').slice(0, -1).join('/'))
+            exec(command)
+                .catch(console.log);
+        }
         downloads--;
     }
 
