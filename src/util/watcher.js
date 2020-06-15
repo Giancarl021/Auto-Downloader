@@ -13,7 +13,9 @@ module.exports = function (path) {
         error: []
     };
 
-    const watcher = filewatcher.watch(path);
+    const watcher = filewatcher.watch(path, {
+        awaitWriteFinish: true
+    });
 
     for (const event in subscriptions) {
         watcher.on(event, (...args) => notify(event, args));
@@ -26,12 +28,8 @@ module.exports = function (path) {
     }
 
     function subscribe(fn, event = 'all') {
-        const length = subscriptions[event].push(fn);
-        return length - 1;
-    }
-
-    function removeSubscription(index) {
-        subscriptions.splice(index, 1);
+        if(!Object.keys(subscriptions).includes(event)) throw new Error('This event does not exists');
+        subscriptions[event].push(fn);
     }
 
     async function close() {
@@ -40,7 +38,6 @@ module.exports = function (path) {
 
     return {
         subscribe,
-        removeSubscription,
         close
     }
 }

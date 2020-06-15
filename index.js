@@ -1,14 +1,8 @@
-require('dotenv').config();
-const createEnvironmentHandler = require('./src/services/environment');
-const createFileWatcher = require('./src/services/watcher');
+const createListController = require('./src/services/list');
 
 async function main() {
-    const env = createEnvironmentHandler();
-    env.create();
-
-    const watcher = createFileWatcher('data/queue.json');
-    watcher.subscribe(console.log);
-    
+    const list = createListController();
+    list.start();
 }
 
 main().catch(console.log);

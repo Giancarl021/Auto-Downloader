@@ -1,15 +1,11 @@
 const createJsonHandler = require('./json');
-
-const masterPath = process.env.DATA;
-const errorPath = process.env.ERRORS;
-const progressPath = process.env.PROGRESS;
-const finishedPath = progress.env.FINISHED;
+const { path } = require('../../data/configs.json');
 
 module.exports = function (name) {
 
-    const prg = createJsonHandler(`${masterPath}/${progressPath}`);
-    const err = createJsonHandler(`${masterPath}/${errorPath}`);
-    const fin = createJsonHandler(`${masterPath}/${finishedPath}`);
+    const prg = createJsonHandler(path.progress);
+    const err = createJsonHandler(path.errors);
+    const fin = createJsonHandler(path.finished);
 
     function update(state) {
         const progress = prg.exists() ? prg.load() : {};
@@ -23,14 +19,18 @@ module.exports = function (name) {
         removeFromProgress();
     }
 
-    function end() {
+    function end(url) {
         const finished = fin.exists() ? fin.load() : [];
-        finished.push(name);
+        finished.push({
+            url,
+            filename: name
+        });
         fin.save(finished);
         removeFromProgress();
     }
 
     function removeFromProgress() {
+        if(!prg.exists()) return;
         const progress = prg.load();
         delete progress[name];
         prg.save(progress);

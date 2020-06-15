@@ -1,0 +1,10 @@
+{   
+    "path": {
+        "errors": "data/var/errors.json",
+        "progress": "data/var/progress.json",
+        "finished": "data/var/finished.json",
+        "queue": "queue.list"
+    },
+    "output": "downloads",
+    "parallelDonwloads": 3
+}
