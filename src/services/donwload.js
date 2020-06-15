@@ -7,7 +7,9 @@ const {
     isAbsolute
 } = require('path');
 
-const { output } = require('../../data/configs.json').path;
+const {
+    output
+} = require('../../data/configs.json').path;
 
 module.exports = function (url) {
     const subscriptions = {
@@ -16,23 +18,27 @@ module.exports = function (url) {
         error: []
     };
 
-    function download(filename) {
+    async function download(filename) {
         const savePath = isAbsolute(filename) ? filename : join(output, filename);
-        return new Promise((resolve) => {
-            progress(request.get(url))
-                .on('progress', (...args) => {
-                    notify('progress', args);
-                })
-                .on('error', (...args) => {
-                    notify('error', args);
-                    resolve();
-                })
-                .on('end', (...args) => {
-                    notify('end', [url, filename, ...args]);
-                    resolve();
-                })
-                .pipe(fs.createWriteStream(savePath));
-        });
+        try {
+            await new Promise((resolve) => {
+                progress(request.get(url))
+                    .on('progress', (...args) => {
+                        notify('progress', args);
+                    })
+                    .on('error', (...args) => {
+                        notify('error', args);
+                        resolve();
+                    })
+                    .on('end', (...args) => {
+                        notify('end', [url, filename, ...args]);
+                        resolve();
+                    })
+                    .pipe(fs.createWriteStream(savePath));
+            });
+        } catch (error) {
+            notify('error', [error]);
+        }
     }
 
     function subscribe(fn, event = 'end') {

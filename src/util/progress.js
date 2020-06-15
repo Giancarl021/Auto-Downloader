@@ -16,6 +16,7 @@ module.exports = function (name) {
     function error(error) {
         const errors = err.exists() ? err.load() : {};
         errors[name] = error.message;
+        err.save(errors);
         removeFromProgress();
     }
 

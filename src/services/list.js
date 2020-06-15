@@ -47,6 +47,8 @@ module.exports = function () {
             downloader.subscribe(progHandler.update, 'progress');
             downloader.subscribe(progHandler.error, 'error');
             downloader.subscribe(progHandler.end, 'end');
+
+            downloader.subscribe(removeDownload, 'error');
             downloader.subscribe(completeDownload, 'end');
 
             downloader.download(filename);
@@ -55,10 +57,7 @@ module.exports = function () {
     }
 
     function completeDownload(url, filename) {
-        const links = getLinks();
-        const index = links.findIndex(item => item.url === url);
-        links.splice(index, 1);
-        list.save(links.map(item => item.url + ' > ' + item.filename).join('\n'));
+        removeDownload(url);
 
         if (postDownload) {
             const file = createFileHandler(filename);
@@ -70,6 +69,13 @@ module.exports = function () {
                 .catch(console.log);
         }
         downloads--;
+    }
+
+    function removeDownload(url) {
+        const links = getLinks();
+        const index = links.findIndex(item => item.url === url);
+        links.splice(index, 1);
+        list.save(links.map(item => item.url + ' > ' + item.filename).join('\n'));
     }
 
     function createList() {
