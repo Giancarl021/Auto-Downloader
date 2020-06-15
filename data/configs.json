@@ -3,9 +3,9 @@
         "errors": "data/var/errors.json",
         "progress": "data/var/progress.json",
         "finished": "data/var/finished.json",
-        "queue": "queue.list"
+        "queue": "queue.list",
+        "output": "downloads"
     },
-    "output": "downloads",
     "parallelDonwloads": 3,
     "postDownload": null
 }

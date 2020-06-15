@@ -2,6 +2,13 @@ const request = require('request');
 const fs = require('fs');
 const progress = require('request-progress');
 
+const {
+    join,
+    isAbsolute
+} = require('path');
+
+const { output } = require('../../data/configs.json').path;
+
 module.exports = function (url) {
     const subscriptions = {
         progress: [],
@@ -10,6 +17,7 @@ module.exports = function (url) {
     };
 
     function download(filename) {
+        const savePath = isAbsolute(filename) ? filename : join(output, filename);
         return new Promise((resolve) => {
             progress(request.get(url))
                 .on('progress', (...args) => {
@@ -23,7 +31,7 @@ module.exports = function (url) {
                     notify('end', [url, filename, ...args]);
                     resolve();
                 })
-                .pipe(fs.createWriteStream(filename));
+                .pipe(fs.createWriteStream(savePath));
         });
     }
 

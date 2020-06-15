@@ -1,6 +1,9 @@
 # Local Files
 data/var/**/*
 !data/var/README.md
+downloads/**/*
+!downloads/README.md
+queue.list
 
 # Logs
 logs
