@@ -12,22 +12,27 @@ const {
 } = require('../../data/configs.json').path;
 
 module.exports = function (url) {
+    let requester, _filename, _path;
     const subscriptions = {
         progress: [],
         end: [],
+        cancel: [],
         error: []
     };
 
     async function download(filename) {
+        _filename = filename;
         const savePath = isAbsolute(filename) ? filename : join(output, filename);
+        _path = savePath;
         try {
             await new Promise((resolve) => {
-                progress(request.get(url))
+                requester = request.get(url);
+                progress(requester)
                     .on('progress', (...args) => {
-                        notify('progress', args);
+                        notify('progress', [url, filename, ...args]);
                     })
                     .on('error', (...args) => {
-                        notify('error', args);
+                        notify('error', [url, filename, ...args]);
                         resolve();
                     })
                     .on('end', (...args) => {
@@ -37,8 +42,14 @@ module.exports = function (url) {
                     .pipe(fs.createWriteStream(savePath));
             });
         } catch (error) {
-            notify('error', [error]);
+            notify('error', [url, filename, error]);
         }
+    }
+
+    function cancel(message = 'Cancelled manually') {
+        requester.abort(message);
+        fs.unlinkSync(_path);
+        notify('cancel', [url, _filename, message]);
     }
 
     function subscribe(fn, event = 'end') {
@@ -54,6 +65,7 @@ module.exports = function (url) {
 
     return {
         download,
+        cancel,
         subscribe
     }
 }
