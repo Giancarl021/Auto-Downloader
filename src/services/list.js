@@ -100,12 +100,12 @@ module.exports = function () {
     }
 
     function isOnQueue(url, filename) {
-        const hash = createHash(url + filename);
+        const hash = createHash(filename);
         return downloads.map(e => e.hash).includes(hash);
     }
 
     function removeDownloadFromQueue(url, filename) {
-        const hash = createHash(url + filename);
+        const hash = createHash(filename);
         downloads.splice(downloads.findIndex(e => e.hash === hash), 1);
     }
 
@@ -124,7 +124,7 @@ module.exports = function () {
                 }
                 let [url, filename] = link.split('>').map(e => e.trim());
                 if(!filename) filename = 'download-' + url.replace(/[^a-zA-Z0-9]/g, '');
-                const hash = createHash(url + filename);
+                const hash = createHash(filename);
                 return {
                     url,
                     filename,

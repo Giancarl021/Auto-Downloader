@@ -15,7 +15,7 @@ module.exports = function (name) {
         progress[name] = {
             url,
             filename,
-            hash: createHash(url + filename),
+            hash: createHash(filename),
             state
         };
         prg.save(progress);
