@@ -1,6 +1,6 @@
 {
     "name": "auto-downloader",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "description": "An automatic background downloader using an file as input",
     "main": "index.js",
     "repository": "https://github.com/Giancarl021/Auto-Downloader.git",
