@@ -5,12 +5,12 @@
 **npm**
 
 ```bash
-npm install -g auto-downloader
+npm install auto-downloader
 ```
 
 **Yarn**
 ```bash
-yarn add global auto-downloader
+yarn add auto-downloader
 ```
 
 ## Configuration
@@ -91,7 +91,7 @@ Here are the defaults:
 
 ## <a name="usage">Usage</a>
 
-To use the file, run ``npm start`` or ``yarn start``. Then the ``queue.list`` file will appear on the path that you configured.
+To use the file, run ``npm start`` or ``yarn start`` on the project directory. Then the ``queue.list`` file will appear on the path that you configured.
 
 #### Download
 
