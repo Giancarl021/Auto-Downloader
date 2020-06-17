@@ -81,13 +81,15 @@ Here are the defaults:
     }
 ]
 ```
-``path.queue``: The location of the file with the links to downloads. The format is [here](#usage).
-``output``: The directory where the files will be downloaded.
-``parallelDownloads``: The number of downloads performed at the same time.
-``postDownload``: An shell command with will be executed when the downloads are finished. The command will have access to three constants of the download:
-  ``%filename%``: The name of the file downloaded with extension.
-  ``%filedir%``: The name of the directory that the file has been downloaded.
-  ``%filepath%``: The absolute path to the file downloaded.
+``path.queue``: The location of the file with the links to downloads. The format is [here](#usage).<br/>
+``output``: The directory where the files will be downloaded.<br/>
+``parallelDownloads``: The number of downloads performed at the same time.<br/>
+
+``postDownload``: An shell command with will be executed when the downloads are 
+finished. The command will have access to three constants of the download:
+* ``%filename%``: The name of the file downloaded with extension.
+* ``%filedir%``: The name of the directory that the file has been downloaded.
+* ``%filepath%``: The absolute path to the file downloaded.
 
 ## <a name="usage">Usage</a>
 
