@@ -6,7 +6,6 @@
     "repository": "https://github.com/Giancarl021/Auto-Downloader.git",
     "author": "Giancarlo Fontela da Luz <gian.f.luz@hotmail.com>",
     "license": "MIT",
-    "private": false,
     "scripts": {
         "start": "node index.js"
     },
