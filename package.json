@@ -1,5 +1,5 @@
 {
-    "name": "@giancarl021/auto-downloader",
+    "name": "auto-downloader",
     "version": "0.1.0",
     "description": "An automatic background downloader using an file as input",
     "main": "index.js",
