@@ -12,10 +12,9 @@ const {
     parallelDownloads,
     postDownload
 } = require('../../data/configs.json');
-const file = require('../util/file');
 
 module.exports = function () {
-    const list = createFileHandler(path.queue);
+    const list = createFileHandler(path.queue + '/queue.list');
     let watcher;
     let downloads = [];
     const operations = {

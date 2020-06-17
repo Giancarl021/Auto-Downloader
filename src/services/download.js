@@ -46,7 +46,7 @@ module.exports = function (url) {
         }
     }
 
-    function cancel(message = 'Cancelled manually') {
+    function cancel(message = 'Canceled manually') {
         requester.abort(message);
         fs.unlinkSync(_path);
         notify('cancel', [url, _filename, message]);

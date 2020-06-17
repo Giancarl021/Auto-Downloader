@@ -5,10 +5,10 @@ const createHash = require('./hash');
 module.exports = function (name) {
 
     let _lock = false;
-    const prg = createJsonHandler(path.progress);
-    const err = createJsonHandler(path.errors);
-    const fin = createJsonHandler(path.finished);
-    const can = createJsonHandler(path.cancelled);
+    const prg = createJsonHandler(path.progress + '/progress.json');
+    const err = createJsonHandler(path.errors + '/errors.json');
+    const fin = createJsonHandler(path.finished + '/finished.json');
+    const can = createJsonHandler(path.canceled + '/canceled.json');
 
     function update(url, filename, state) {
         const progress = prg.exists() ? prg.load() : {};
@@ -54,17 +54,17 @@ module.exports = function (name) {
     }
 
     function cancel(url) {
-        const cancelled = can.exists() ? can.load() : [];
-        cancelled.unshift({
+        const canceled = can.exists() ? can.load() : [];
+        canceled.unshift({
             url,
             filename: name
         });
 
-        while(cancelled.length > historySize) {
-            cancelled.pop();
+        while(canceled.length > historySize) {
+            canceled.pop();
         }
 
-        can.save(cancelled);
+        can.save(canceled);
         _lock = true;
         removeFromProgress();
     }
