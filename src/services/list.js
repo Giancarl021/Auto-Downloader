@@ -21,6 +21,7 @@ module.exports = function () {
         '!': hash => {
             const download = downloads.find(item => item.hash === hash);
             if(download) download.downloader.cancel();
+            else removeOperation(hash, '!');
         }
     };
 
@@ -96,6 +97,13 @@ module.exports = function () {
         const index = links.findIndex(item => item.url === url);
         links.splice(index, 1);
         list.save(links.map(item => item.url + ' > ' + item.filename).join('\n'));
+    }
+
+    function removeOperation(hash, operation) {
+        const lines = getLines();
+        const index = lines.findIndex(e => e === operation + hash);
+        lines.splice(index, 1);
+        list.save(lines);
     }
 
     function isOnQueue(url, filename) {
