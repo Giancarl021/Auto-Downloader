@@ -1,4 +1,5 @@
 const createFileWatcher = require('../util/watcher');
+const createDirectoryHandler = require('../util/directory');
 const createFileHandler = require('../util/file');
 const createDownloader = require('./download');
 const createProgressHandler = require('../util/progress');
@@ -131,6 +132,14 @@ module.exports = function () {
                 }
                 let [url, filename] = link.split('>').map(e => e.trim());
                 if(!filename) filename = 'download-' + url.replace(/[^a-zA-Z0-9]/g, '');
+                if(/!$/.test(filename)) {
+                    const arr = filename.split('/');
+                    arr.unshift(path.output);
+                    arr.pop();
+                    const dir = createDirectoryHandler(arr.join('/'));
+                    dir.make(true);
+                    filename = filename.substr(0, filename.length - 1);
+                }
                 const hash = createHash(filename);
                 return {
                     url,
