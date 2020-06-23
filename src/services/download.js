@@ -20,6 +20,7 @@ module.exports = function (url, output) {
         _filename = filename;
         const savePath = isAbsolute(filename) ? filename : join(output, filename);
         _path = savePath;
+        const fileStream = fs.createWriteStream(savePath).on('error', fileStreamError);
         try {
             await new Promise((resolve) => {
                 requester = request.get(url);
@@ -35,7 +36,7 @@ module.exports = function (url, output) {
                         notify('end', [url, filename, ...args]);
                         resolve();
                     })
-                    .pipe(fs.createWriteStream(savePath));
+                    .pipe(fileStream);
             });
         } catch (error) {
             notify('error', [url, filename, error]);
@@ -46,6 +47,11 @@ module.exports = function (url, output) {
         requester.abort(message);
         fs.unlinkSync(_path);
         notify('cancel', [url, _filename, message]);
+    }
+
+    function fileStreamError(error) {
+        requester.abort(error.message);
+        notify('error', [url, _filename, error]);
     }
 
     function subscribe(fn, event = 'end') {

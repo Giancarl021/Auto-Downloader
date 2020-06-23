@@ -52,7 +52,10 @@ module.exports = function (configs) {
                 hash
             } = links[i];
 
-            if(downloads.some(download => download.hash === hash)) continue;
+            if(downloads.some(download => download.hash === hash)) {
+                removeDownload(url);
+                continue;
+            };
 
             const progHandler = createProgressHandler(filename, path, historySize);
             const downloader = createDownloader(url, path.output)
