@@ -8,13 +8,14 @@ const {
     exec
 } = require('child_process');
 
-const {
-    path,
-    parallelDownloads,
-    postDownload
-} = require('../../data/configs.json');
+module.exports = function (configs) {
+    const {
+        path,
+        parallelDownloads,
+        postDownload,
+        historySize
+    } = configs;
 
-module.exports = function () {
     const list = createFileHandler(path.queue + '/queue.list');
     let watcher;
     let downloads = [];
@@ -51,8 +52,10 @@ module.exports = function () {
                 hash
             } = links[i];
 
-            const progHandler = createProgressHandler(filename);
-            const downloader = createDownloader(url)
+            if(downloads.some(download => download.hash === hash)) continue;
+
+            const progHandler = createProgressHandler(filename, path, historySize);
+            const downloader = createDownloader(url, path.output)
             
             downloader.subscribe(progHandler.update, 'progress');
             downloader.subscribe(progHandler.error, 'error');
@@ -132,14 +135,13 @@ module.exports = function () {
                 }
                 let [url, filename] = link.split('>').map(e => e.trim());
                 if(!filename) filename = 'download-' + url.replace(/[^a-zA-Z0-9]/g, '');
+                const dir = getDir(filename);
+
                 if(/!$/.test(filename)) {
-                    const arr = filename.split('/');
-                    arr.unshift(path.output);
-                    arr.pop();
-                    const dir = createDirectoryHandler(arr.join('/'));
                     dir.make(true);
                     filename = filename.substr(0, filename.length - 1);
                 }
+
                 const hash = createHash(filename);
                 return {
                     url,
@@ -155,6 +157,13 @@ module.exports = function () {
         }
 
         return Object.values(linksMap);
+
+        function getDir(filename) {
+            const arr = filename.split('/');
+            arr.unshift(path.output);
+            arr.pop();
+            return createDirectoryHandler(arr.join('/'));
+        }
     }
 
     function getLines() {

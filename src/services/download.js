@@ -7,11 +7,7 @@ const {
     isAbsolute
 } = require('path');
 
-const {
-    output
-} = require('../../data/configs.json').path;
-
-module.exports = function (url) {
+module.exports = function (url, output) {
     let requester, _filename, _path;
     const subscriptions = {
         progress: [],

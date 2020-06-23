@@ -1,8 +1,7 @@
 const createJsonHandler = require('./json');
-const { path, historySize } = require('../../data/configs.json');
 const createHash = require('./hash');
 
-module.exports = function (name) {
+module.exports = function (name, path, historySize) {
 
     let _lock = false;
     const prg = createJsonHandler(path.progress + '/progress.json');

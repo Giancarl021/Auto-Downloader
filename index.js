@@ -1,8 +1,10 @@
 const createListController = require('./src/services/list');
 
-async function main() {
-    const list = createListController();
+const _options = require('./data/configs.json');
+
+async function main(options = _options) {
+    const list = createListController(options);
     list.start();
 }
 
-main().catch(console.log);
+module.exports = main;

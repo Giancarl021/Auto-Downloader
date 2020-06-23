@@ -7,7 +7,7 @@
     "author": "Giancarlo Fontela da Luz <gian.f.luz@hotmail.com>",
     "license": "MIT",
     "scripts": {
-        "start": "node index.js"
+        "start": "node test.spec.js"
     },
     "dependencies": {
         "chokidar": "^3.4.0",
