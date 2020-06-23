@@ -15,7 +15,7 @@ yarn add auto-downloader
 
 ## Configuration
 
-You can customize the default behavior of the Auto Downloader in the [configuration file](data/configs.json)
+You can customize the default behavior of the Auto Downloader passing options.
 
 Here are the defaults:
 
@@ -93,7 +93,11 @@ finished. The command will have access to three constants of the download:
 
 ## <a name="usage">Usage</a>
 
-To use the file, run ``npm start`` or ``yarn start`` on the project directory. Then the ``queue.list`` file will appear on the path that you configured.
+```javascript
+const downloader = require('auto-downloader');
+
+downloader(options);
+```
 
 #### Download
 
