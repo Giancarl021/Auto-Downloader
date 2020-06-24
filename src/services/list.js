@@ -41,8 +41,8 @@ module.exports = function (configs) {
     }
 
     function checkList() {
-        if (downloads.length === parallelDownloads) return;
         const links = getLinks();
+        if (downloads.length === parallelDownloads) return;
 
         const l = Math.min(parallelDownloads - downloads.length, parallelDownloads, links.length);
         for (let i = 0; i < l; i++) {
