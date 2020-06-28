@@ -82,7 +82,7 @@ module.exports = function (configs) {
         removeDownloadFromQueue(url, filename);
         const lines = getLines();
         
-        list.save(lines.filter(line => line.charAt(0) !== '!').join('\n'));
+        list.save(lines.filter(line => line.charAt(0) !== '!').join('\n') + '\n');
     }
 
     function completeDownload(url, filename) {
@@ -103,14 +103,14 @@ module.exports = function (configs) {
         const links = getLinks();
         const index = links.findIndex(item => item.url === url);
         links.splice(index, 1);
-        list.save(links.map(item => item.url + ' > ' + item.filename).join('\n'));
+        list.save(links.map(item => item.url + ' > ' + item.filename).join('\n') + '\n');
     }
 
     function removeOperation(hash, operation) {
         const lines = getLines();
         const index = lines.findIndex(e => e === operation + hash);
         lines.splice(index, 1);
-        list.save(lines);
+        list.save(lines.join('\n') + '\n');
     }
 
     function isOnQueue(url, filename) {
